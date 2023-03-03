@@ -12,12 +12,12 @@
 # Contributor: Ike Devolder <ike.devolder+gmail+com>
 
 _linuxprefix=linux-xanmod
-_extramodules=$(find /usr/lib/modules -type d -iname 6.1.14*xanmod* | rev | cut -d "/" -f1 | rev)
+_extramodules=$(find /usr/lib/modules -type d -iname 6.2.1*xanmod* | rev | cut -d "/" -f1 | rev)
 
 pkgname=$_linuxprefix-nvidia-390xx
 pkgdesc="NVIDIA drivers for linux"
 pkgver=390.157
-pkgrel=61141
+pkgrel=6211
 arch=('x86_64')
 url="http://www.nvidia.com/"
 license=('custom')
@@ -28,20 +28,22 @@ provides=("nvidia=$pkgver" 'NVIDIA-MODULE')
 options=(!strip)
 install=nvidia.install
 _durl="https://us.download.nvidia.com/XFree86/Linux-x86"
-source=("${_durl}_64/${pkgver}/NVIDIA-Linux-x86_64-${pkgver}-no-compat32.run")
-sha256sums=('162317a49aa5a521eb888ec12119bfe5a45cec4e8653efc575a2d04fb05bf581')
+source=("${_durl}_64/${pkgver}/NVIDIA-Linux-x86_64-${pkgver}-no-compat32.run"
+        'kernel-6.2.patch')
+sha256sums=('162317a49aa5a521eb888ec12119bfe5a45cec4e8653efc575a2d04fb05bf581'
+            '3501f0bbd9603543da74873905448ff58f5095948a7375617bba74f122d575aa')
 
 _pkg="NVIDIA-Linux-x86_64-${pkgver}-no-compat32"
 
 prepare() {
     sh "${_pkg}.run" --extract-only
 
-    cd "${_pkg}"
-    # patches here
+    cd "${_pkg}/kernel"
+    patch -Np1 -i ${srcdir}/kernel-6.2.patch
 }
 
 build() {
-    _kernver=$(find /usr/lib/modules -type d -iname 6.1.14*xanmod* | rev | cut -d "/" -f1 | rev)
+    _kernver=$(find /usr/lib/modules -type d -iname 6.2.1*xanmod* | rev | cut -d "/" -f1 | rev)
 
     cd "${_pkg}"
     make -C kernel SYSSRC=/usr/lib/modules/"${_kernver}/build" module
