@@ -12,12 +12,12 @@
 # Contributor: Ike Devolder <ike.devolder+gmail+com>
 
 _linuxprefix=linux-xanmod
-_extramodules=$(find /usr/lib/modules -type d -iname 6.4.3*xanmod* | rev | cut -d "/" -f1 | rev)
+_extramodules=$(find /usr/lib/modules -type d -iname 6.4.4*xanmod* | rev | cut -d "/" -f1 | rev)
 
 pkgname=$_linuxprefix-nvidia-390xx
 pkgdesc="NVIDIA drivers for linux"
 pkgver=390.157
-pkgrel=64320
+pkgrel=64410
 arch=('x86_64')
 url="http://www.nvidia.com/"
 license=('custom')
@@ -49,7 +49,7 @@ prepare() {
 }
 
 build() {
-    _kernver=$(find /usr/lib/modules -type d -iname 6.4.3*xanmod* | rev | cut -d "/" -f1 | rev)
+    _kernver=$(find /usr/lib/modules -type d -iname 6.4.4*xanmod* | rev | cut -d "/" -f1 | rev)
 
     cd "${_pkg}"
     make -C kernel SYSSRC=/usr/lib/modules/"${_kernver}/build" module
