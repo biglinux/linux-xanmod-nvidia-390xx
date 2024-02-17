@@ -17,7 +17,7 @@ _kernver="$(cat /usr/src/${_linuxprefix}/version)"
 pkgname=$_linuxprefix-nvidia-390xx
 pkgdesc="NVIDIA drivers for linux"
 pkgver=390.157
-pkgrel=66161
+pkgrel=67510
 arch=('x86_64')
 url="http://www.nvidia.com/"
 license=('custom')
@@ -48,12 +48,14 @@ prepare() {
     sh "${_pkg}.run" --extract-only
 
     cd "${_pkg}/kernel"
-    patch -Np1 -i ${srcdir}/kernel-6.2.patch
-    patch -Np1 -i ${srcdir}/kernel-6.3.patch
-    patch -Np1 -i ${srcdir}/kernel-6.4.patch
-    patch -Np1 -i ${srcdir}/buildfix_kernel_6.5-garbage-collect-all-references-to-get_user.patch
-    patch -Np1 -i ${srcdir}/buildfix_kernel_6.5-handle-get_user_pages-vmas-argument-remova.patch
-    patch -Np1 -i ${srcdir}/kernel-6.6.patch
+    local src
+    for src in "${source[@]}"; do
+        src="${src%%::*}"
+        src="${src##*/}"
+        [[ $src = *.patch ]] || continue
+        msg2 "Applying patch: $src..."
+        patch -Np1 < "../../$src"
+    done
 }
 
 build() {
