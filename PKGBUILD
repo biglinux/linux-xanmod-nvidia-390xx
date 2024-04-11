@@ -16,7 +16,7 @@ _linuxprefix=linux-xanmod
 pkgname="${_linuxprefix}-nvidia-390xx"
 pkgdesc="NVIDIA drivers for linux"
 pkgver=390.157
-pkgrel=67121
+pkgrel=68510
 arch=('x86_64')
 url="http://www.nvidia.com/"
 license=('custom')
@@ -31,6 +31,7 @@ source=("${_durl}_64/${pkgver}/NVIDIA-Linux-x86_64-${pkgver}-no-compat32.run"
         'kernel-6.3.patch'
         'kernel-6.4.patch'
         'kernel-6.6.patch'
+        'kernel-6.8.patch'
         'buildfix_kernel_6.5-garbage-collect-all-references-to-get_user.patch'
         'buildfix_kernel_6.5-handle-get_user_pages-vmas-argument-remova.patch')
 sha256sums=('162317a49aa5a521eb888ec12119bfe5a45cec4e8653efc575a2d04fb05bf581'
@@ -38,6 +39,7 @@ sha256sums=('162317a49aa5a521eb888ec12119bfe5a45cec4e8653efc575a2d04fb05bf581'
             '4284f95f808df4e43afc4632e3fc1f87da1a805f0f6f9af1f6b519c7cf7562b4'
             '6a73ba0760c278a835ec5dcc6f3a9e0f8f0787fde95e832c38e8038152242708'
             '070879076eb75801ecf42819ccf89f09556db421475cb883413b10876a306f87'
+            'fa82f41f0d2d12d3dcf983996683c8576d9f41407b052244a57ad3778031ec0f'
             'b50bfc1f45c706fed3429bf2a876d127405a8a0c7617042ef088ca5493b0814f'
             'dbb15bb863a74513946738be1ae223f26eab0e631b8ecb05b0f9c52549fdb847')
 
