@@ -1,9 +1,7 @@
 # Maintainer: Bernhard Landauer <bernhard[at]manjaro[dot]org>
 # Maintainer: Philip Müller <philm[at]manjaro[dot]org>
 # Contributor: Gerd Röthig (DAC24)
-
-# Archlinux credits:
-# Maintainer : Thomas Baechler <thomas@archlinux.org>
+# Contributer : Thomas Baechler <thomas@archlinux.org>
 # Contributor: Alonso Rodriguez <alonsorodi20 (at) gmail (dot) com>
 # Contributor: Sven-Hendrik Haase <sh@lutzhaase.com>
 # Contributor: Felix Yan <felixonmars@archlinux.org>
@@ -16,7 +14,7 @@ _linuxprefix=linux-xanmod
 pkgname="${_linuxprefix}-nvidia-390xx"
 pkgdesc="NVIDIA drivers for linux"
 pkgver=390.157
-pkgrel=69121
+pkgrel=61031
 arch=('x86_64')
 url="http://www.nvidia.com/"
 license=('custom')
@@ -27,37 +25,39 @@ provides=("nvidia=${pkgver}" 'NVIDIA-MODULE')
 options=(!strip)
 _durl="https://us.download.nvidia.com/XFree86/Linux-x86"
 source=("${_durl}_64/${pkgver}/NVIDIA-Linux-x86_64-${pkgver}-no-compat32.run"
+        'kernel-4.16+-memory-encryption.patch'
         'kernel-6.2.patch'
         'kernel-6.3.patch'
         'kernel-6.4.patch'
+        'kernel-6.5.patch'
         'kernel-6.6.patch'
         'kernel-6.8.patch'
-        'buildfix_kernel_6.5-garbage-collect-all-references-to-get_user.patch'
-        'buildfix_kernel_6.5-handle-get_user_pages-vmas-argument-remova.patch'
-        'conftest.patch')
+        'kernel-6.10.patch'
+        'gcc14.patch')
 sha256sums=('162317a49aa5a521eb888ec12119bfe5a45cec4e8653efc575a2d04fb05bf581'
-            '3501f0bbd9603543da74873905448ff58f5095948a7375617bba74f122d575aa'
-            '4284f95f808df4e43afc4632e3fc1f87da1a805f0f6f9af1f6b519c7cf7562b4'
-            '6a73ba0760c278a835ec5dcc6f3a9e0f8f0787fde95e832c38e8038152242708'
-            '070879076eb75801ecf42819ccf89f09556db421475cb883413b10876a306f87'
-            'fa82f41f0d2d12d3dcf983996683c8576d9f41407b052244a57ad3778031ec0f'
-            'b50bfc1f45c706fed3429bf2a876d127405a8a0c7617042ef088ca5493b0814f'
-            'dbb15bb863a74513946738be1ae223f26eab0e631b8ecb05b0f9c52549fdb847'
-            'd20d52d1d31e788822d3daf8f31dde4857c2932b17c1af8b4fce26ad2c22725a')
+            '6c5f5b11dbb43f40f4e2c6a2b5417f44b50cf29d16bbd091420b7e737acb6ccd'
+            'a94d34cda96d443d02d992ee7962ce7c9949134b899e366fc3dafaf48bc19ebe'
+            'd380ee05adc4cf2aeb673b72327fe6a4b3a43f7d1bb1823084228129e31e6c59'
+            '92f3cb65ee1b5d07b0a28d02424cd7ae1ad5705d407b5aa7d635da680b4c8568'
+            '10e50e41aca33d26f02df2ba53512cab7d3fbc0f49c161952e67cde619104b45'
+            '11917658c2f4bb1d8c1a4603b9e3844cc9be10171fb6df0e9b482c07a3a3b6aa'
+            '4add71eff4d4c7970a518faa4c6fbf83879c6237b082a37eb6427de4f1b95bfe'
+            'efc5e88c082d405d53c0a5b22891cd295620ebf02ef6b488ab752df772d5b4ba'
+            'af840e7e03aa9cf311c0d1e32469596e5e728a0206cbe06f99bbc22e3de25a12')
 
 _pkg="NVIDIA-Linux-x86_64-${pkgver}-no-compat32"
 
 prepare() {
     sh "${_pkg}.run" --extract-only
 
-    cd "${_pkg}/kernel"
+    cd "${_pkg}"
     local src
     for src in "${source[@]}"; do
         src="${src%%::*}"
         src="${src##*/}"
         [[ $src = *.patch ]] || continue
         msg2 "Applying patch: $src..."
-        patch -Np1 < "../../$src"
+        patch -Np1 < "../$src"
     done
 }
 

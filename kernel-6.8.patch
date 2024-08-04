@@ -1,7 +1,7 @@
-diff --git a/nvidia-drm/nvidia-drm-drv.c b/nvidia-drm/nvidia-drm-drv.c
+diff --git a/kernel/nvidia-drm/nvidia-drm-drv.c b/kernel/nvidia-drm/nvidia-drm-drv.c
 index 132d4d4..1291893 100644
---- a/nvidia-drm/nvidia-drm-drv.c
-+++ b/nvidia-drm/nvidia-drm-drv.c
+--- a/kernel/nvidia-drm/nvidia-drm-drv.c
++++ b/kernel/nvidia-drm/nvidia-drm-drv.c
 @@ -654,6 +654,13 @@ static const struct file_operations nv_drm_fops = {
      .llseek         = noop_llseek,
  };
